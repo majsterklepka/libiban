@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([libiban], [2.0.1], [starywandal@onet.pl])
+AC_INIT(libiban, 2.1, starywandal@onet.pl)
 AC_CONFIG_SRCDIR([iban.h])
 AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE([-Wall foreign])
@@ -20,7 +20,7 @@ AC_PROG_LN_S
 #defining library version
 LIB_VERSION=2:1:0
 AC_SUBST(LIB_VERSION)
-AC_DEFINE_UNQUOTED([LIB_VERSION],[$LIB_VERSION],[number library version])
+AC_DEFINE_UNQUOTED([LIB_VERSION],[$LIB_VERSION],[ibrary version number])
 
 
 # Checks for libraries.
@@ -38,4 +38,10 @@ AC_CHECK_HEADERS([stdlib.h string.h])
 AC_FUNC_MALLOC
 
 AC_CONFIG_FILES([Makefile])
+LIBS="-lgmp"
+PACKAGE_CFLAGS="-I${includedir}/${PACKAGE}"
+AX_CREATE_PKGCONFIG_INFO
+
 AC_OUTPUT
+
+
