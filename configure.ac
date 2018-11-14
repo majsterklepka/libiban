@@ -5,6 +5,7 @@ AC_PREREQ([2.69])
 AC_INIT(libiban, 2.1, starywandal@onet.pl)
 AC_CONFIG_SRCDIR([iban.h])
 AC_CONFIG_HEADERS([config.h])
+AC_CONFIG_AUX_DIR([.])
 AM_INIT_AUTOMAKE([-Wall foreign])
 AM_PROG_AR
 AC_CONFIG_MACRO_DIR([m4])
@@ -37,11 +38,11 @@ AC_CHECK_HEADERS([stdlib.h string.h])
 # Checks for library functions.
 AC_FUNC_MALLOC
 
-AC_CONFIG_FILES([Makefile])
 LIBS="-lgmp"
 PACKAGE_CFLAGS="-I${includedir}/${PACKAGE}"
-AX_CREATE_PKGCONFIG_INFO
 
+AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([libiban.pc])
 AC_OUTPUT
 
 

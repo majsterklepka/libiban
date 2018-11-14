@@ -37,7 +37,7 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
 
-/* number library version */
+/* ibrary version number */
 #undef LIB_VERSION
 
 /* Define to the sub-directory where libtool stores uninstalled libraries. */
