@@ -21,14 +21,10 @@ AC_PROG_LN_S
 #defining library version
 LIB_VERSION=2:1:0
 AC_SUBST(LIB_VERSION)
-AC_DEFINE_UNQUOTED([LIB_VERSION],[$LIB_VERSION],[ibrary version number])
-
 
 # Checks for libraries.
 AC_LANG(C)
 AC_CHECK_LIB([gmp],[main],[HAVE_GMP=1, GMP_LIBS="$GMP_LIBS -lgmp"], [gmp not instaled!])
-AC_SUBST(GMP_LIBS)
-AC_DEFINE_UNQUOTED([GMP_LIBS],[$GMP_LIBS],[link to gmp library])
 
 # Checks for header files.
 AC_CHECK_HEADERS([stdlib.h string.h])
@@ -39,7 +35,12 @@ AC_CHECK_HEADERS([stdlib.h string.h])
 AC_FUNC_MALLOC
 
 LIBS="-lgmp"
+PACKAGE_REQUIRES="gmp"
+AC_SUBST(PACKAGE_REQUIRES)
+PACKAGE_DESCRIPTION="IBAN number validation library"
+AC_SUBST(PACKAGE_DESCRIPTION)
 PACKAGE_CFLAGS="-I${includedir}/${PACKAGE}"
+AC_SUBST(PACKAGE_CFLAGS)
 
 AC_CONFIG_FILES([Makefile])
 AC_CONFIG_FILES([libiban.pc])

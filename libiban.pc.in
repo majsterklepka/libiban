@@ -15,4 +15,4 @@ Description: @PACKAGE_DESCRIPTION@
 Version: @PACKAGE_VERSION@
 Requires: @PACKAGE_REQUIRES@
 Libs: -L${libdir} @LDFLAGS@ @LIBS@
-Cflags: -I${includedir} @CPPFLAGS@
+Cflags: -I${includedir} @PACKAGE_CFLAGS@

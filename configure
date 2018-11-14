@@ -635,8 +635,10 @@ ac_includes_default="\
 ac_subst_vars='am__EXEEXT_FALSE
 am__EXEEXT_TRUE
 LTLIBOBJS
+PACKAGE_CFLAGS
+PACKAGE_DESCRIPTION
+PACKAGE_REQUIRES
 LIBOBJS
-GMP_LIBS
 LIB_VERSION
 CPP
 LT_SYS_LIBRARY_PATH
@@ -12853,12 +12855,6 @@ fi
 LIB_VERSION=2:1:0
 
 
-cat >>confdefs.h <<_ACEOF
-#define LIB_VERSION $LIB_VERSION
-_ACEOF
-
-
-
 # Checks for libraries.
 ac_ext=c
 ac_cpp='$CPP $CPPFLAGS'
@@ -12901,12 +12897,6 @@ if test "x$ac_cv_lib_gmp_main" = xyes; then :
 else
   gmp not instaled!
 fi
-
-
-
-cat >>confdefs.h <<_ACEOF
-#define GMP_LIBS $GMP_LIBS
-_ACEOF
 
 
 # Checks for header files.
@@ -12996,7 +12986,12 @@ fi
 
 
 LIBS="-lgmp"
+PACKAGE_REQUIRES="gmp"
+
+PACKAGE_DESCRIPTION="IBAN number validation library"
+
 PACKAGE_CFLAGS="-I${includedir}/${PACKAGE}"
+
 
 ac_config_files="$ac_config_files Makefile"
 
