@@ -1,26 +1,34 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
+# Release version
+m4_define([package_version_major],[2])
+m4_define([package_version_minor],[0])
+m4_define([package_version_micro],[1])
+
 AC_PREREQ([2.69])
-AC_INIT(libiban, 2.1, starywandal@onet.pl)
+AC_INIT(libiban, [package_version_major.package_version_minor.package_version_micro], starywandal@onet.pl)
 AC_CONFIG_SRCDIR([iban.h])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_AUX_DIR([.])
 AM_INIT_AUTOMAKE([-Wall foreign])
 AM_PROG_AR
 AC_CONFIG_MACRO_DIR([m4])
-AC_ENABLE_SHARED
-AC_DISABLE_STATIC
-LT_INIT
+
+LT_INIT(disable-static)
+
+AC_CANONICAL_BUILD
+
 
 # Checks for programs.
 AC_PROG_CC
 AC_PROG_INSTALL
 AC_PROG_LN_S
+PKG_PROG_PKG_CONFIG
+PKG_INSTALLDIR
 
 #defining library version
-LIB_VERSION=2:1:0
-AC_SUBST(LIB_VERSION)
+AC_SUBST([LIB_VERSION], [package_version_major:package_version_micro:package_version_minor])
 
 # Checks for libraries.
 AC_LANG(C)
