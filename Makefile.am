@@ -4,12 +4,8 @@ VERSION = @VERSION@
 libdir = @libdir@
 includedir = @includedir@
 datadir = @datadir@
-pkgconfigdir = @datadir@/pkgconfig
-pkglibdir = $(libdir)/$(PACKAGE)
-pkgincludedir = $(includedir)/$(PACKAGE)
+pkgconfigdir = ${datadir}/pkgconfig
 LIB_VERSION = @LIB_VERSION@
-
-EXTRA_DIST = libiban.pc
 
 ACLOCAL_AMFLAGS = -I m4 --install
 
@@ -19,3 +15,4 @@ libiban_la_LDFLAGS = $(GMP_LIBS) -version-info $(LIB_VERSION)
 pkginclude_HEADERS = iban.h
 pkgconfig_DATA = libiban.pc  
 
+CLEANFILES =  libiban.pc

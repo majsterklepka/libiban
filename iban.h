@@ -15,6 +15,8 @@
 #ifndef IBAN_H_
 #define IBAN_H_
 
+#define RETURN_CODE_VALID	0
+#define RETURN_CODE_INVALID	1
 
 int iban_validation_test(const char *iban);
 

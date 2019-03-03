@@ -61,14 +61,14 @@ int iban_validation_test(const char *iban)
 	//a loop that counts the occurrence of letters in a string
 	for (i = 0; i < sz; i++) {
 		if (!isdigit(iban[i]) && !isupper(iban[i]))
-			return 0;
+			return RETURN_CODE_INVALID;
 		l += isupper(iban[i]);
 	}
 	
 	/*the first test to check if the length of the input string
 	  corresponds to the length of the sequence specified for the given country*/
 	if (!valid_cc(iban, sz))
-		return 0;
+		return RETURN_CODE_INVALID;
 	
 	/*
 	  allocating memory for a variable
@@ -138,9 +138,9 @@ int iban_validation_test(const char *iban)
 	
 	//the final test, returns 1 if the IBAN has the correct sum
 	if (resp == 1){
-		return 1;
+		return RETURN_CODE_VALID;
 	}
     		
-    return 0;
+    return RETURN_CODE_INVALID;
 }
 
