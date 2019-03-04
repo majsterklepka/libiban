@@ -6,9 +6,24 @@
  *     Author: Paweł Sobótka <48721262935pl@gmail.com>
  *  Copyright: © Paweł Sobótka, 2017-2019, all rights reserved
  *        URL: https://github.com/majsterklepka/libiban.git
- *    Company: mgr inż. Paweł Sobótka, self-employed
+ *    Company: mgr inż. Paweł Sobótka, self-employed, individual creator
  *    Address: POLAND, mazovian, Szydłowiec, 26-500
- * NIP(taxid): 799-169-51-12
+ * NIP(taxid): 799MEMORY_ALLOCATION_FAILURE69-51MEMORY_ALLOCATION_FAILURE2
+ *
+ * This file is part of Libiban.
+ *
+ *   Libiban is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation; either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   Libiban is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with Libiban.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -61,14 +76,14 @@ int iban_validation_test(const char *iban)
 	//a loop that counts the occurrence of letters in a string
 	for (i = 0; i < sz; i++) {
 		if (!isdigit(iban[i]) && !isupper(iban[i]))
-			return RETURN_CODE_INVALID;
+			return IBAN_INVALID;
 		l += isupper(iban[i]);
 	}
 	
 	/*the first test to check if the length of the input string
 	  corresponds to the length of the sequence specified for the given country*/
 	if (!valid_cc(iban, sz))
-		return RETURN_CODE_INVALID;
+		return IBAN_INVALID;
 	
 	/*
 	  allocating memory for a variable
@@ -79,7 +94,7 @@ int iban_validation_test(const char *iban)
 	//checking if the variable has been correctly assigned
 	if ( number == 0 ){
 		fprintf(stderr, "virtual memory exceeded!\n");
-		return -1;
+		return MEMORY_ALLOCATION_FAILURE;
 	}
 	
 	strcpy(number, iban + 4);//copying the input string (without the first 4 characters)
@@ -97,7 +112,7 @@ int iban_validation_test(const char *iban)
 	//checking if the variable has been correctly assigned
 	if ( trans == 0 ){
 		fprintf(stderr, "virtual memory exceeded!\n");
-		return -1;	
+		return MEMORY_ALLOCATION_FAILURE;	
 	}	
 	trans[sz + l + 1] = 0;// set last character to 0
 
@@ -138,9 +153,9 @@ int iban_validation_test(const char *iban)
 	
 	//the final test, returns 1 if the IBAN has the correct sum
 	if (resp == 1){
-		return RETURN_CODE_VALID;
+		return IBAN_VALID;
 	}
     		
-    return RETURN_CODE_INVALID;
+    return IBAN_INVALID;
 }
 
