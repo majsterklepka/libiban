@@ -32,7 +32,8 @@
 
 #define IBAN_VALID			0
 #define IBAN_INVALID			1
-#define MEMORY_ALLOCATION_FAILURE	-1
+
+char *libiban_errstr;
 
 int iban_validation_test(const char *iban);
 

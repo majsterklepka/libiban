@@ -30,6 +30,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <error.h>
+#include <errno.h>
 #include <ctype.h>
 #include <gmp.h>
 #include <assert.h>
@@ -90,11 +92,14 @@ int iban_validation_test(const char *iban)
           var number is the internal variable with the input string
 	*/
 	char *number = (char*)malloc(sz*sizeof(char));
+	int errsv = errno;
 
 	//checking if the variable has been correctly assigned
-	if ( number == 0 ){
-		fprintf(stderr, "virtual memory exceeded!\n");
-		return MEMORY_ALLOCATION_FAILURE;
+	if ( number == NULL ){
+		libiban_errstr = "variable number";
+		perror(libiban_errstr);
+		exit(EXIT_FAILURE);	
+		
 	}
 	
 	strcpy(number, iban + 4);//copying the input string (without the first 4 characters)
@@ -108,11 +113,12 @@ int iban_validation_test(const char *iban)
 	  prepared in correct form for algorythm
 	*/
 	char *trans = (char*)malloc((sz + l)*sizeof(char));
-
+	errsv = errno;
 	//checking if the variable has been correctly assigned
-	if ( trans == 0 ){
-		fprintf(stderr, "virtual memory exceeded!\n");
-		return MEMORY_ALLOCATION_FAILURE;	
+	if ( trans == NULL ){
+		libiban_errstr = "variable trans";
+		perror(libiban_errstr);
+		exit(EXIT_FAILURE);	
 	}	
 	trans[sz + l + 1] = 0;// set last character to 0
 
