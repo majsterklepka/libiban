@@ -1,0 +1,205 @@
+\input texinfo
+@c %**start of header
+@set PROGNAME Libiban
+@include version.texi
+@settitle Libiban API Reference 
+@setfilename libiban.info
+@afourpaper
+@documentlanguage en_US
+@documentencoding UTF-8
+@c %**end of header
+
+@dircategory Libiban 
+@direntry 
+* libiban(libiban.info).    library for IBAN validation
+@end direntry
+
+@copying
+This manual is for @value{PROGNAME} (version @value{VERSION}, @value{UPDATED})
+@sp 1
+Copyright @copyright{}  2017-2019  Pawel Sobotka.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3
+or any later version published by the Free Software Foundation;
+with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+A copy of the license is included in the section entitled "GNU
+Free Documentation License".
+@sp 1
+Examples and sources code included in this document are part of @value{PROGNAME}.
+
+@value{PROGNAME} is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+
+@value{PROGNAME} is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with @value{PROGNAME}.  If not, see <@uref{http://www.gnu.org/licenses/}>.
+
+@end copying
+
+@titlepage
+@title @value{PROGNAME} API Reference Manual
+@subtitle for version @value{VERSION}, @value{UPDATED}
+ 
+@author Pawel Sobotka <@email{starywandal@@onet.pl}>
+
+@page
+@vskip 0pt plus 1filll
+@insertcopying
+@end titlepage
+
+@contents
+
+@node Top
+@top Libiban API Reference
+@cindex About this manual
+
+What is Libiban? It is a library written for validate IBAN number. What's means word IBAN?. I(nternational) B(ank) A(ccount) N(umber). This is a standard used in many european country. 
+
+@menu
+* A piece of theory::   introduction to theory of validation personal numbers.
+* iban_validation_test::  library function
+* Header file::	        iban.h header file
+* pkg-config support::  pkg-config support
+* Index::               Complete index
+* Copying::             Your rights and freedoms.
+@end menu
+
+@node A piece of theory, iban_validation_test, Top, Top
+@cindex IBAN number
+
+To verify the correctness of the IBAN number, its check sum should be calculated. In Poland, the IBAN number consists of 28 characters, the first two being the country code (PL). The next two characters are the checksum (items 3 and 4) and the remaining ones are the correct bank account number. The account number is up to 30 alphanumeric characters, it is the bank's basic account number (BBAN), some of which must identify the bank. In Poland, BBAN consists of 24 digits, of which 8 digits form the bank's settlement number and the remaining 16 digits specify the customer's account number.
+
+@example
+@b{PLkk AAAAAAAA BBBBBBBBBBBBBBBB} @result{} Polish IBAN number
+
+@b{PL} @result{} country code according to the standard
+@uref{http://pl.wikipedia.org/wiki/ISO_3166-1, ISO-3166-1}
+
+@b{kk} @result{} checksum
+
+@b{AAAAAAAA} @result{} number identifying the bank
+
+@b{BBBBBBBBBBBBBBBB} @result{} client account number
+@end example
+
+The IBAN number is written without spaces.
+
+In order to calculate the checksum, one should follow the algorithm:
+
+@itemize @minus
+
+@item
+we always consider the full IBAN number including the country code
+
+@item
+we are moving the first four characters in the end
+we change letters into strings of numbers such that A is @code{10}, B is @code{11} up to Z
+
+@item
+after changing letters into a string of digits, we obtained a string of numbers only, we calculate the sum of modulo 97 and if it is equal to 1 then the checksum is correct
+@end itemize
+
+A similar algorithm applies in other countries using the IBAN system.
+
+@node iban_validation_test, Header file, A piece of theory, Top
+@chapter iban_validation_test()
+@findex iban_validation_test()
+
+@example
+int iban_validation_test(const char* iban)
+@end example
+
+This function provides validate functionality by checking checksum of input string. Return value is depend of that, if input string is valid @code{IBAN_VALID} or not @code{IBAN_INVALID}. These two constants are defined in header file
+@ifinfo 
+@pxref{Header file, iban.h, libiban,libiban, Libiban API Reference Manual}.
+@end ifinfo
+@iftex
+@xref{Header file, iban.h, libiban, libiban, Libiban API Reference Manual} .
+@end iftex
+@ifhtml
+@pxref{Header file, iban.h, iban.h}.
+@end ifhtml
+
+Usage:
+@example
+
+#include    <iban.h>
+#include    <malloc.h>
+@dots{}
+
+int test = 0;
+char *buffer = (char*)malloc(40*sizeof(char));
+
+printf("IBAN: ");
+
+scanf("%s", &buffer);
+
+test = iban_validation_test(buffer);
+
+if (test == IBAN_VALID)
+    printf("IBAN valid\n");
+else
+    printf("IBAN invalid\n");
+
+free(buffer);
+
+@enddots{}
+
+@end example
+
+@node Header file, pkg-config support, iban_validation_test, Top
+@chapter Header file
+@cindex iban.h
+
+Library provide the iban.h file.
+
+@example
+
+#ifndef IBAN_H_
+#define IBAN_H_
+
+#define IBAN_VALID	        	0
+#define IBAN_INVALID			1
+
+char *libiban_errstr;
+
+int iban_validation_test(const char *iban);
+
+
+
+#endif /* IBAN_H_ */
+
+@end example
+
+@node pkg-config support, Index, Header file, Top
+@chapter pkg-config support
+@cindex pkg-config support
+
+@node Index, Copying, pkg-config support, Top 
+@unnumbered Index
+@cindex Index, Function Index
+
+@printindex cp
+
+@printindex fn
+
+@node Copying, Top, Index, Top
+@appendix GNU Free Documentation License
+
+@cindex GNU FDL 
+@include fdl-1.3.texi
+
+@appendix GNU General Public License
+@cindex GNU GPL 
+@include gpl-3.0.texi
+
+@bye
+
+
+
